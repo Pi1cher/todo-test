@@ -5,6 +5,7 @@ import { router } from './router';
 function App() {
     useAuthListener();
 
+
     return <RouterProvider router={router} />;
 }
 
