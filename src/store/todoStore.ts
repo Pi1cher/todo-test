@@ -39,14 +39,12 @@ export const useTodoStore = create<TodoStore>((set, get) => ({
 
         let filtered = todos;
 
-        // Apply filter
         if (filter === 'completed') {
             filtered = filtered.filter(todo => todo.completed);
         } else if (filter === 'active') {
             filtered = filtered.filter(todo => !todo.completed);
         }
 
-        // Apply search
         if (searchQuery.trim()) {
             filtered = filtered.filter(todo =>
                 todo.todo.toLowerCase().includes(searchQuery.toLowerCase())

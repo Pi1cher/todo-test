@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { createUserDocument, getUserDocument } from '../services/userService';
@@ -31,7 +31,6 @@ export const Login = () => {
 
             const firebaseUser = userCredential.user;
 
-            // Check if user document exists
             let userDoc = await getUserDocument(firebaseUser.uid);
 
             if (!userDoc) {
@@ -45,13 +44,18 @@ export const Login = () => {
             setUser(userDoc);
 
             if (!userDoc.displayName) {
-                navigate('/set-nickname');
+                navigate('/user');
             } else {
                 navigate('/todos');
             }
-        } catch (error: any) {
-            setError(error.message);
-        } finally {
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                setError(error.message);
+            } else {
+                setError(String(error));
+            }
+        }
+        finally {
             setLoading(false);
         }
     };
@@ -82,9 +86,14 @@ export const Login = () => {
             } else {
                 navigate('/todos');
             }
-        } catch (error: any) {
-            setError(error.message);
-        } finally {
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                setError(error.message);
+            } else {
+                setError(String(error));
+            }
+        }
+        finally {
             setLoading(false);
         }
     };
